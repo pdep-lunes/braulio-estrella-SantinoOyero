@@ -17,8 +17,8 @@ bolaEspinosa :: Personaje -> Personaje
 bolaEspinosa unPersonaje = sacarVida unPersonaje 1000
                            
 sacarVida :: Personaje -> Int -> Personaje
-sacarVida unPersonaje vida = | vida > cantidadDeVida unPersonaje = (unPersonaje {cantidadDeVida = 0})
-                             | vida < cantidadDeVida unPersonaje = (unPersonaje {cantidadDeVida = cantidadDeVida - vida})
+sacarVida unPersonaje vida | vida > cantidadDeVida unPersonaje = (unPersonaje {cantidadDeVida = 0})
+                           | vida < cantidadDeVida unPersonaje = (unPersonaje {cantidadDeVida = cantidadDeVida - vida})
 
 sumarVida :: Personaje -> Int -> Personaje
 sumarVida unPersonaje vida = (unPersonaje {cantidadDeVida = cantidadDeVida + vida})
@@ -27,9 +27,9 @@ mitadVida :: Personaje -> Personaje
 mitadVida unPersonaje = unPersonaje{cantidadDeVida = cantidadDeVida / 2}
 
 lluviaDeTuercas :: Personaje -> String -> Personaje
-lluviaDeTuercas unPersonaje tipo = | tipo == "sanadoras" = sumarVida unPersonaje 800
-                                   | tipo  == "dañinas" = mitadVida unPersonaje
-                                   | otherwise = unPersonaje
+lluviaDeTuercas unPersonaje tipo | tipo == "sanadoras" = sumarVida unPersonaje 800
+                                 | tipo  == "dañinas" = mitadVida unPersonaje
+                                 | otherwise = unPersonaje
 
 granadaDeEspinas :: Int -> Personaje -> Personaje
 granadaDeEspinas radio unPersonaje = | radio > 3 && cantidadDeVida unPersonaje < 800 = (unPersonaje {nombre = nombre ++ "Espinas estuvo aqui"  ,superPoderActivo = False, cantidadDeVida = 0})
@@ -38,3 +38,4 @@ granadaDeEspinas radio unPersonaje = | radio > 3 && cantidadDeVida unPersonaje <
 
 torretaCurativa :: Personaje -> Personaje
 torretaCurativa unPersonaje = unPersonaje {superPoderActivo = True, cantidadDeVida = sumarVida unPersonaje (cantidadDeVida unPersonaje)}
+
