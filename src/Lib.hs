@@ -16,11 +16,9 @@ data Personaje = Personaje{
 bolaEspinosa :: Personaje -> Personaje
 bolaEspinosa unPersonaje = sacarVida unPersonaje 1000
                            
-
 sacarVida :: Personaje -> Int -> Personaje
-sacarVida unPersonaje vida = | vida > cantidadDeVida = (unPersonaje {cantidadDeVida = = 0})
-                             | vida < cantidadDeVida = (unPersonaje {cantidadDeVida = cantidadDeVida - vida})
-
+sacarVida unPersonaje vida = | vida > cantidadDeVida unPersonaje = (unPersonaje {cantidadDeVida = 0})
+                             | vida < cantidadDeVida unPersonaje = (unPersonaje {cantidadDeVida = cantidadDeVida - vida})
 
 sumarVida :: Personaje -> Int -> Personaje
 sumarVida unPersonaje vida = (unPersonaje {cantidadDeVida = cantidadDeVida + vida})
@@ -33,4 +31,13 @@ lluviaDeTuercas unPersonaje tipo = | tipo == "sanadoras" = sumarVida unPersonaje
                                    | tipo  == "dañinas" = mitadVida unPersonaje
                                    | otherwise = unPersonaje
 
-granadaDeEspinas :: 
+granadaDeEspinas :: Int -> Personaje -> Personaje
+granadaDeEspinas radio unPersonaje = | radio > 3 && cantidadDeVida unPersonaje < 800 = (unPersonaje {nombre = nombre ++ "Espinas estuvo aqui"  ,superPoderActivo = False, cantidadDeVida = 0})
+                                     | radio  > 3 = (unPersonaje {nombre = nombre ++ "Espinas estuvo aqui" })
+                                     | otherwise bolaEspinosa unPersonaje
+
+cantidadDeVida :: Personaje -> Int
+cantidadDeVida (_,_,_,_, vida) = vida
+
+torretaCurativa :: Personaje -> Personaje
+torretaCurativa unPersonaje = unPersonaje {superPoderActivo = True, cantidadDeVida = sumarVida unPersonaje (cantidadDeVida unPersonaje)}
