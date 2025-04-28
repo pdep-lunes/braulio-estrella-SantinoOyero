@@ -10,7 +10,7 @@ data Personaje = Personaje{
     poderBasico :: String,
     superPoder :: String,
     superPoderActivo :: Bool,
-    cantidadDeVida :: Int
+    cantidadDeVida :: Number
 } deriving (Show, Eq)
 
 espina :: Personaje
@@ -31,14 +31,14 @@ pamela = Personaje {
     cantidadDeVida = 9600
 }
 
-bolaEspinosa :: Personaje -> Personaje
-bolaEspinosa unPersonaje = sacarVida unPersonaje 1000
-                           
-sacarVida :: Personaje -> Int -> Personaje
+sacarVida :: Personaje -> Number -> Personaje
 sacarVida unPersonaje vida | vida >= cantidadDeVida unPersonaje = unPersonaje {cantidadDeVida = 0}
                            | vida < cantidadDeVida unPersonaje = unPersonaje {cantidadDeVida = cantidadDeVida unPersonaje - vida}
 
-sumarVida :: Personaje -> Int -> Personaje
+bolaEspinosa :: Personaje -> Personaje
+bolaEspinosa unPersonaje = sacarVida unPersonaje 1000
+
+sumarVida :: Personaje -> Number -> Personaje
 sumarVida unPersonaje vida = (unPersonaje {cantidadDeVida = cantidadDeVida unPersonaje + vida})
 
 mitadVida :: Personaje -> Personaje
@@ -51,23 +51,18 @@ lluviaDeTuercas unPersonaje tipo otroPersonaje | tipo == "sanadoras" = sumarVida
                                                | otherwise = otroPersonaje
 
 -- En este punto interprete que todas las modificaciones se le hacen a unPersonaje y no a otroPersonaje que vendria a ser el contrincante. 
-granadaDeEspinas :: Int -> Personaje -> Personaje ->Personaje
+granadaDeEspinas :: Number -> Personaje -> Personaje ->Personaje
 granadaDeEspinas radio unPersonaje otroPersonaje | radio > 3 && cantidadDeVida otroPersonaje < 800 = (unPersonaje {nombre = nombre unPersonaje ++ "Espinas estuvo aqui"  ,superPoderActivo = False, cantidadDeVida = 0})
                                                  | radio  > 3 = (unPersonaje {nombre = nombre unPersonaje ++ "Espinas estuvo aqui" })
-                                                 | otherwise bolaEspinosa unPersonaje
+                                                 | otherwise = bolaEspinosa otroPersonaje
 
 -- Considero que se pasa un personaje que ya es el aliado.
-
 torretaCurativa :: Personaje -> Personaje
 torretaCurativa unPersonaje  = unPersonaje {superPoderActivo = True, cantidadDeVida = (cantidadDeVida unPersonaje) * 2}
 
 
--- atacar con el poder especial: si el personaje tiene el súper poder activo, entonces va a atacar a su contrincante con el súper y con el básico. Si no, no hará nada.
-
--- atacar :: Personaje -> 
-
 quienesEstanEnLasUltimas :: [Personaje] -> [String]
-quienesEstanEnLasUltimas unosPersonajes = map nombre . (filter estaEnLasUltimas) unosPersonajes
+quienesEstanEnLasUltimas unosPersonajes = (map nombre . filter estaEnLasUltimas) unosPersonajes
 
 estaEnLasUltimas :: Personaje -> Bool
 estaEnLasUltimas personaje = cantidadDeVida personaje < 800
