@@ -60,12 +60,21 @@ granadaDeEspinas radio unPersonaje otroPersonaje | radio > 3 && cantidadDeVida o
 torretaCurativa :: Personaje -> Personaje
 torretaCurativa unPersonaje  = unPersonaje {superPoderActivo = True, cantidadDeVida = (cantidadDeVida unPersonaje) * 2}
 
+-- Hacemos un ejemplo de lo que sería un ataque de un personaje a otro, para poder utilizar el superPoder
+atacaConBasico :: Personaje -> Personaje -> Personaje
+atacaConBasico unPersonaje otroPersonaje = bolaEspinosa otroPersonaje
+   
+atacaConPoder :: Number -> Personaje -> Personaje -> Personaje
+atacaConPoder x unPersonaje otroPersonaje = granadaDeEspinas x unPersonaje otroPersonaje
 
+atacarConElSuperPoder :: Number -> Personaje -> Personaje -> Personaje
+atacarConElSuperPoder x unPersonaje otroPersonaje
+  | superPoderActivo unPersonaje = atacaConBasico unPersonaje (atacaConPoder x unPersonaje otroPersonaje)
+  | otherwise = otroPersonaje
+    
 quienesEstanEnLasUltimas :: [Personaje] -> [String]
 quienesEstanEnLasUltimas unosPersonajes = (map nombre . filter estaEnLasUltimas) unosPersonajes
 
+
 estaEnLasUltimas :: Personaje -> Bool
 estaEnLasUltimas personaje = cantidadDeVida personaje < 800
-
--- Falta fijarme errores, ya que no me los estaria tirando, y terminar el punto de reportes.
-
